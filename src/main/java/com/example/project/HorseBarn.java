@@ -12,26 +12,35 @@ public class HorseBarn {
      *  @param numStalls  the number of stalls in the barn
      */
     public HorseBarn(int numStalls) {
-        /* to be implemented in part (a) */
+        stalls = new Horse[numStalls];
     }
 
     /** Assigns stalls to reference sampleHorses
      */
     public HorseBarn(Horse[] sampleStalls) {
-        /* to be implemented in part (a) */
+        stalls = sampleStalls;
     }
 
     /** Getter/accessor method for stalls
      *
      *  @return  a references to the stalls array
      */
-    // to be added in part (a)
+    public Horse[] getStalls() {
+        return stalls;
+    }
 
     /** Returns a string that shows which horses are in which stalls
      */
     public String horseBarnInfo() {
-        /* to be implemented in part (b) */
-        return "";
+        String str = "";
+        for (int i = 0; i < stalls.length; i++) {
+            if (stalls[i] != null) {
+                str += "Stall " + i + ": " + stalls[i].horseInfo() + "\n";
+            } else {
+                str += "Stall " + i + ": empty\n";
+            }
+        }
+        return str;
     }
 
     /** Places a Horse into stalls at the index indicated by stall
@@ -42,7 +51,7 @@ public class HorseBarn {
      *  @param stall  the index of stalls to place the Horse
      */
     public void placeHorse(Horse horse, int stall) {
-        /* to be implemented in part (c) */
+        stalls[stall] = horse;
     }
 
     /** Returns the index of the stall that contains the horse with the specified name.
@@ -54,8 +63,12 @@ public class HorseBarn {
      *          -1 if no horse with the specified name is in the barn.
      */
     public int findHorseStall(String name) {
-        /* to be implemented in part (d) */
-        return 0;
+        for (int i = 0; i < stalls.length; i++) {
+            if (stalls[i] != null && stalls[i].getName().equals(name)) {
+                return i;
+            }
+        }
+        return -1;
     }
 
     /** Consolidates the barn by moving horses so that the horses are in adjacent
@@ -64,6 +77,23 @@ public class HorseBarn {
      *  POSTCONDITION: The order of the horses is the same as before the consolidation.
      */
     public void consolidate() {
-        /* to be implemented in part (e) */
+        Horse[] tempStalls = new Horse[stalls.length];
+        for (int i = 0; i < stalls.length; i++) {
+            tempStalls[i] = stalls[i];
+        }
+        stalls = new Horse[tempStalls.length];
+        int stallsIdx = 0;
+        for (int i = 0; i < tempStalls.length; i++) {
+            if (tempStalls[i] != null) {
+                stalls[stallsIdx] = tempStalls[i];
+                stallsIdx++;
+            }
+        }
+    }
+
+    public static void main(String[] args) {
+        HorseBarn barn1 = new HorseBarn(3);
+        barn1.placeHorse(new Horse("Silver",1210), 2);
+        barn1.placeHorse(new Horse("Trigger", 1340), 0);
     }
 }
